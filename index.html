@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My First Coding Project</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <section class="panel">
+        <p class="eyebrow">Beginner coding lab</p>
+        <h1>Dashboard 101</h1>
+        <p class="intro">
+          "Sainsbury Steak ain't steak - it's ground beef."
+        </p>
+
+        <section class="weather-card" aria-live="polite">
+          <p id="weather-updated" class="weather-updated">Loading current weather...</p>
+          <div class="weather-layout">
+            <div class="weather-main">
+              <p class="weather-label">Changning District, Shanghai</p>
+              <div>
+                <span class="weather-temp-large" id="weather-temp">--</span>
+                <span class="weather-degree">C</span>
+              </div>
+            </div>
+            <div class="weather-grid">
+              <div>
+                <p>Humidity</p>
+                <span class="weather-value" id="weather-humidity">--</span>
+                <span class="weather-unit">%</span>
+              </div>
+              <div>
+                <p>Rain</p>
+                <span class="weather-value" id="weather-rain">--</span>
+                <span class="weather-unit">%</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <form id="note-form" class="note-form">
+          <label for="note-input">Add a note</label>
+          <div class="input-row">
+            <input id="note-input" type="text" placeholder="Example: Learn something new everyday, clip one intereseting article, and sew a button!">
+            <select id="category-input" aria-label="Note category">
+              <option value="Idea">Idea</option>
+              <option value="Task">Task</option>
+              <option value="Article">Article</option>
+            </select>
+            <button type="submit">Add</button>
+          </div>
+        </form>
+
+        <div class="filter-row" aria-label="Filter notes by category">
+          <button class="filter-button active" type="button" data-filter="All">All</button>
+          <button class="filter-button" type="button" data-filter="Idea">Ideas</button>
+          <button class="filter-button" type="button" data-filter="Task">Tasks</button>
+          <button class="filter-button" type="button" data-filter="Article">Articles</button>
+        </div>
+
+        <input id="note-search" class="search-input" type="search" placeholder="Search notes">
+
+        <p id="note-count" class="note-count">0 notes saved</p>
+
+        <ul id="note-list" class="note-list">
+          <li>Open this file in a browser</li>
+          <li>Edit the heading in index.html</li>
+          <li>Change a color in styles.css</li>
+          <li>Practice for ten minutes</li>
+        </ul>
+
+        <div class="actions">
+          <button id="clear-button" class="clear-button" type="button">Clear All</button>
+          <button id="undo-button" class="undo-button" type="button" hidden>Undo Clear</button>
+          <button id="export-button" class="export-button" type="button">Export Markdown</button>
+        </div>
+      </section>
+
+      <section class="panel wheels-panel">
+        <p class="eyebrow">Cat activity log</p>
+        <h2>Wheels Status</h2>
+        <p class="intro">
+          Track food, beverage, and health updates with an automatic timestamp.
+        </p>
+
+        <form id="wheels-form" class="note-form">
+          <label for="wheels-input">Add a Wheels entry</label>
+          <div class="input-row">
+            <input id="wheels-input" type="text" placeholder="Example: Ate half a bowl of dry food">
+            <select id="wheels-category-input" aria-label="Wheels entry category">
+              <option value="Food">Food</option>
+              <option value="Beverage">Beverage</option>
+              <option value="Health">Health</option>
+            </select>
+            <button type="submit">Add</button>
+          </div>
+        </form>
+
+        <div class="filter-row" aria-label="Filter Wheels entries by category">
+          <button class="wheels-filter-button active" type="button" data-filter="All">All</button>
+          <button class="wheels-filter-button" type="button" data-filter="Food">Food</button>
+          <button class="wheels-filter-button" type="button" data-filter="Beverage">Beverage</button>
+          <button class="wheels-filter-button" type="button" data-filter="Health">Health</button>
+        </div>
+
+        <input id="wheels-search" class="search-input" type="search" placeholder="Search Wheels entries">
+
+        <p id="wheels-count" class="note-count">0 entries shown</p>
+
+        <ul id="wheels-list" class="note-list activity-list"></ul>
+
+        <div class="actions">
+          <button id="wheels-clear-button" class="clear-button" type="button">Clear All</button>
+          <button id="wheels-undo-button" class="undo-button" type="button" hidden>Undo Clear</button>
+          <button id="wheels-export-button" class="export-button" type="button">Export Wheels Log</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
