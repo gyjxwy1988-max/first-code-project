@@ -1,0 +1,15 @@
+{
+  "notes": [
+    {
+      "text": "This note came from data.json",
+      "category": "Idea"
+    }
+  ],
+  "wheelsEntries": [
+    {
+      "text": "Example shared Wheels entry",
+      "category": "Health",
+      "createdAt": "2026-05-27T09:00:00.000+08:00"
+    }
+  ]
+}
