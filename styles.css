@@ -6,21 +6,22 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: Arial, Helvetica, sans-serif;
-  background: #000005;
+  background: #f3f0ea;
   color: #202124;
 }
 
 .app {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   min-height: 100vh;
-  padding: 24px;
-  gap: 28px;
+  padding: 32px;
+  gap: 32px;
 }
 
 .panel {
-  width: min(820px, 100%);
+  width: min(1120px, 100%);
+  margin: 0 auto;
   padding: 40px;
   border: 1px solid #d8d2c8;
   border-radius: 8px;
@@ -56,9 +57,9 @@ h2 {
 
 .weather-card {
   display: grid;
-  gap: 14px;
-  margin-top: 24px;
-  padding: 20px;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 16px 18px;
   border: 1px solid #c7bfb3;
   border-radius: 8px;
   background: #fffdf8;
@@ -67,7 +68,7 @@ h2 {
 .weather-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 14px;
   align-items: center;
 }
 
@@ -78,23 +79,23 @@ h2 {
 .weather-label {
   margin: 0;
   color: #202124;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
 }
 
 .weather-updated {
   margin: 0;
   color: #667085;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .weather-grid {
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 
 .weather-grid div {
-  padding: 12px 14px;
+  padding: 9px 12px;
   border: 1px solid #e5dfd5;
   border-radius: 8px;
   background: white;
@@ -102,21 +103,21 @@ h2 {
 
 .weather-temp-large {
   color: #202124;
-  font-size: 64px;
+  font-size: 42px;
   font-weight: 700;
   line-height: 1;
 }
 
 .weather-degree {
   color: #475467;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
   vertical-align: top;
 }
 
 .weather-value {
   color: #202124;
-  font-size: 26px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -128,14 +129,33 @@ h2 {
 .weather-grid p {
   margin: 0 0 4px;
   color: #667085;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
+}
+
+.subsection {
+  margin-top: 34px;
+  padding: 28px;
+  border: 1px solid #e5dfd5;
+  border-radius: 8px;
+  background: #fffdf8;
+}
+
+.subsection + .subsection {
+  margin-top: 24px;
+}
+
+.section-copy {
+  max-width: 620px;
+  color: #475467;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 .note-form {
   display: grid;
   gap: 8px;
-  margin: 28px 0;
+  margin: 24px 0;
 }
 
 label {
@@ -144,6 +164,11 @@ label {
 
 .input-row {
   display: flex;
+  gap: 10px;
+}
+
+.stacked-inputs {
+  display: grid;
   gap: 10px;
 }
 
@@ -198,6 +223,25 @@ button:hover {
 }
 
 .filter-button.active {
+  background: #111827;
+  color: white;
+}
+
+.intray-filter-button,
+.book-filter-button {
+  padding: 8px 12px;
+  background: #e5e7eb;
+  color: #111827;
+  font-size: 14px;
+}
+
+.intray-filter-button:hover,
+.book-filter-button:hover {
+  background: #d1d5db;
+}
+
+.intray-filter-button.active,
+.book-filter-button.active {
   background: #111827;
   color: white;
 }
@@ -297,8 +341,16 @@ button:hover {
 }
 
 @media (max-width: 520px) {
+  .app {
+    padding: 16px;
+  }
+
   .panel {
     padding: 22px;
+  }
+
+  .subsection {
+    padding: 20px;
   }
 
   h1 {
@@ -338,6 +390,21 @@ button:hover {
 
 .note-text {
   flex: 1;
+}
+
+.intray-link {
+  color: #1d4ed8;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.intray-link:hover {
+  text-decoration: underline;
+}
+
+.intray-note {
+  color: #667085;
+  font-size: 14px;
 }
 
 .category-badge {
@@ -386,6 +453,41 @@ button:hover {
 .health-category {
   background: #fef9c3;
   color: #854d0e;
+}
+
+.intray-status,
+.book-status {
+  min-width: 78px;
+  text-align: center;
+}
+
+.book-title-column {
+  flex: 1.4;
+  min-width: 160px;
+}
+
+.book-author-column {
+  color: #475467;
+  flex: 1;
+  font-size: 15px;
+  min-width: 120px;
+}
+
+.inbox-status {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.reading-status,
+.reading-book-status {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.done-status,
+.completed-book-status {
+  background: #dcfce7;
+  color: #166534;
 }
 
 .remove-button {

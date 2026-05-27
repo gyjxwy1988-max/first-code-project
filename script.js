@@ -6,14 +6,18 @@ const noteCount = document.querySelector("#note-count");
 const noteSearch = document.querySelector("#note-search");
 const clearButton = document.querySelector("#clear-button");
 const undoButton = document.querySelector("#undo-button");
-const exportButton = document.querySelector("#export-button");
-const noteImportInput = document.querySelector("#note-import-input");
-const exportSharedDataButton = document.querySelector("#export-shared-data-button");
 const filterButtons = document.querySelectorAll(".filter-button");
 const weatherTemp = document.querySelector("#weather-temp");
 const weatherHumidity = document.querySelector("#weather-humidity");
 const weatherRain = document.querySelector("#weather-rain");
 const weatherUpdated = document.querySelector("#weather-updated");
+const intrayForm = document.querySelector("#intray-form");
+const intrayLinkInput = document.querySelector("#intray-link-input");
+const intrayStatusInput = document.querySelector("#intray-status-input");
+const intrayList = document.querySelector("#intray-list");
+const intrayCount = document.querySelector("#intray-count");
+const intraySearch = document.querySelector("#intray-search");
+const intrayFilterButtons = document.querySelectorAll(".intray-filter-button");
 const wheelsForm = document.querySelector("#wheels-form");
 const wheelsInput = document.querySelector("#wheels-input");
 const wheelsCategoryInput = document.querySelector("#wheels-category-input");
@@ -23,8 +27,16 @@ const wheelsSearch = document.querySelector("#wheels-search");
 const wheelsClearButton = document.querySelector("#wheels-clear-button");
 const wheelsUndoButton = document.querySelector("#wheels-undo-button");
 const wheelsExportButton = document.querySelector("#wheels-export-button");
-const wheelsImportInput = document.querySelector("#wheels-import-input");
 const wheelsFilterButtons = document.querySelectorAll(".wheels-filter-button");
+const bookForm = document.querySelector("#book-form");
+const bookTitleInput = document.querySelector("#book-title-input");
+const bookAuthorInput = document.querySelector("#book-author-input");
+const bookStatusInput = document.querySelector("#book-status-input");
+const bookFinishedInput = document.querySelector("#book-finished-input");
+const bookList = document.querySelector("#book-list");
+const bookCount = document.querySelector("#book-count");
+const bookFilterButtons = document.querySelectorAll(".book-filter-button");
+const downloadSiteDataButton = document.querySelector("#download-site-data-button");
 
 const starterNotes = [
   { text: "Open this file in a browser", category: "Task" },
@@ -32,14 +44,82 @@ const starterNotes = [
   { text: "Change a color in styles.css", category: "Idea" },
 ];
 
+let embeddedSharedData = {
+  notes: [
+    {
+      text: "猪咪咪外出打猎，小猫猫缝缝补补！",
+      category: "Idea",
+    },
+    {
+      text: "请看见我~~~~",
+      category: "Idea",
+    },
+    {
+      text: "花轮轮：可怕的人类 啧啧啧 （困了",
+      category: "Idea",
+    },
+    {
+      text: "Do laundry, and be a human about it (深藏功与名=。=",
+      category: "Task",
+    },
+    {
+      text: "‘The Maids,’ With Yerin Ha, Asks: Has Life Become One Big Performance?",
+      category: "Article",
+    },
+  ],
+  wheelsEntries: [
+    {
+      text: "皇家幼猫10G",
+      category: "Food",
+      createdAt: "2026-05-26T23:00:00.000Z",
+    },
+    {
+      text: "沉浸式表演喝水十分钟",
+      category: "Beverage",
+      createdAt: "2026-05-27T01:00:00.000Z",
+    },
+    {
+      text: "内驱-大宠爱",
+      category: "Health",
+      createdAt: "2026-05-25T13:00:00.000Z",
+    },
+    {
+      text: "美容觉",
+      category: "Health",
+      createdAt: "2026-05-27T03:25:42.517Z",
+    },
+  ],
+};
+
+embeddedSharedData = {
+  notes: [
+    { text: "\u732a\u54aa\u54aa\u5916\u51fa\u6253\u730e\uff0c\u5c0f\u732b\u732b\u7f1d\u7f1d\u8865\u8865\uff01", category: "Idea" },
+    { text: "\u8bf7\u770b\u89c1\u6211~~~~", category: "Idea" },
+    { text: "\u82b1\u8f6e\u8f6e\uff1a\u53ef\u6015\u7684\u4eba\u7c7b \u5567\u5567\u5567 \uff08\u56f0\u4e86", category: "Idea" },
+    { text: "Do laundry, and be a human about it (\u6df1\u85cf\u529f\u4e0e\u540d=\u3002=", category: "Task" },
+    { text: "\u2018The Maids,\u2019 With Yerin Ha, Asks: Has Life Become One Big Performance?", category: "Article" },
+  ],
+  wheelsEntries: [
+    { text: "\u7687\u5bb6\u5e7c\u732b10G", category: "Food", createdAt: "2026-05-26T23:00:00.000Z" },
+    { text: "\u6c89\u6d78\u5f0f\u8868\u6f14\u559d\u6c34\u5341\u5206\u949f", category: "Beverage", createdAt: "2026-05-27T01:00:00.000Z" },
+    { text: "\u5185\u9a71-\u5927\u5ba0\u7231", category: "Health", createdAt: "2026-05-25T13:00:00.000Z" },
+    { text: "\u7f8e\u5bb9\u89c9", category: "Health", createdAt: "2026-05-27T03:25:42.517Z" },
+  ],
+};
+
 let notes = getSavedNotes();
 let notesBeforeClear = [];
 let currentFilter = "All";
 let currentSearch = "";
+let intrayItems = getSavedIntrayItems();
+let intrayCurrentFilter = "All";
+let intrayCurrentSearch = "";
 let wheelsEntries = getSavedWheelsEntries();
 let wheelsEntriesBeforeClear = [];
 let wheelsCurrentFilter = "All";
 let wheelsCurrentSearch = "";
+let books = getSavedBooks();
+let bookCurrentFilter = "All";
 
 async function loadShanghaiWeather() {
   const weatherUrl = "https://api.open-meteo.com/v1/forecast?latitude=31.2181&longitude=121.4246&current=temperature_2m,relative_humidity_2m&hourly=precipitation_probability&forecast_days=1&timezone=Asia%2FShanghai";
@@ -62,10 +142,27 @@ async function loadShanghaiWeather() {
   }
 }
 
-function getSavedNotes() {
-  const savedNotes = JSON.parse(localStorage.getItem("notes"));
+function readStoredArray(key) {
+  try {
+    const savedValue = localStorage.getItem(key);
 
-  if (!savedNotes) {
+    if (!savedValue) {
+      return [];
+    }
+
+    const parsedValue = JSON.parse(savedValue);
+
+    return Array.isArray(parsedValue) ? parsedValue : [];
+  } catch (error) {
+    localStorage.removeItem(key);
+    return [];
+  }
+}
+
+function getSavedNotes() {
+  const savedNotes = readStoredArray("notes");
+
+  if (savedNotes.length === 0) {
     return starterNotes;
   }
 
@@ -80,11 +177,6 @@ function getSavedNotes() {
 
 function saveNotes() {
   localStorage.setItem("notes", JSON.stringify(notes));
-}
-
-async function loadSharedData() {
-  const response = await fetch("data.json");
-  return response.json();
 }
 
 function downloadTextFile(filename, text, fileType) {
@@ -104,6 +196,14 @@ function noteKey(note) {
 
 function wheelsEntryKey(entry) {
   return `${entry.createdAt}|${entry.category}|${entry.text}`;
+}
+
+function intrayItemKey(item) {
+  return `${item.link}|${item.status}`;
+}
+
+function bookKey(book) {
+  return `${book.title}|${book.author}|${book.status}|${book.finishedDate}`;
 }
 
 function mergeUniqueNotes(sharedNotes) {
@@ -141,19 +241,382 @@ function mergeUniqueWheelsEntries(sharedEntries) {
   });
 }
 
-async function autoLoadSharedData() {
-  try {
-    const sharedData = await loadSharedData();
+function mergeUniqueIntrayItems(sharedItems) {
+  const existingItems = new Set(intrayItems.map(intrayItemKey));
 
-    mergeUniqueNotes(sharedData.notes || []);
-    mergeUniqueWheelsEntries(sharedData.wheelsEntries || []);
-    saveNotes();
-    saveWheelsEntries();
-    renderNotes();
-    renderWheelsEntries();
+  sharedItems.forEach(function (item) {
+    const normalizedItem = {
+      title: item.title || item.link || "",
+      link: normalizeLink(item.link || ""),
+      note: item.note || "",
+      status: item.status === "Done" ? "Done" : "Inbox",
+    };
+    const key = intrayItemKey(normalizedItem);
+
+    if (normalizedItem.link !== "" && !existingItems.has(key)) {
+      intrayItems.push(normalizedItem);
+      existingItems.add(key);
+    }
+  });
+}
+
+function mergeUniqueBooks(sharedBooks) {
+  const existingBooks = new Set(books.map(bookKey));
+
+  sharedBooks.forEach(function (book) {
+    const normalizedBook = {
+      title: book.title || "",
+      author: book.author || "",
+      status: book.status === "Completed" ? "Completed" : "Reading",
+      finishedDate: book.finishedDate || "",
+    };
+    const key = bookKey(normalizedBook);
+
+    if (normalizedBook.title !== "" && !existingBooks.has(key)) {
+      books.push(normalizedBook);
+      existingBooks.add(key);
+    }
+  });
+}
+
+async function fetchSharedData() {
+  try {
+    const response = await fetch("data.json", { cache: "no-store" });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    return response.json();
   } catch (error) {
-    // The local file version may not be allowed to fetch data.json. The app still works without it.
+    return null;
   }
+}
+
+function getSavedIntrayItems() {
+  const savedItems = readStoredArray("intrayItems");
+
+  return savedItems.map(function (item) {
+    const normalizedStatus = item.status === "Done" ? "Done" : "Inbox";
+
+    return {
+      title: item.title || item.link || "",
+      link: item.link || "",
+      note: item.note || "",
+      status: normalizedStatus,
+    };
+  });
+}
+
+function saveIntrayItems() {
+  localStorage.setItem("intrayItems", JSON.stringify(intrayItems));
+}
+
+function normalizeLink(link) {
+  if (link === "" || link.startsWith("http://") || link.startsWith("https://")) {
+    return link;
+  }
+
+  return `https://${link}`;
+}
+
+function getSafeLink(link) {
+  return normalizeLink(link);
+}
+
+function titleCase(text) {
+  return text.replace(/\b\w/g, function (letter) {
+    return letter.toUpperCase();
+  });
+}
+
+function getTitleFromLink(link) {
+  try {
+    const url = new URL(getSafeLink(link));
+    const usefulSegments = url.pathname
+      .split("/")
+      .filter(function (segment) {
+        return segment !== "" && !/^\d+$/.test(segment);
+      });
+    const finalSegment = usefulSegments[usefulSegments.length - 1] || "";
+    const cleanedTitle = finalSegment
+      .replace(/\.(html?|aspx?)$/i, "")
+      .replace(/[-_]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (cleanedTitle.length >= 8) {
+      return titleCase(cleanedTitle);
+    }
+
+    return getSafeLink(link);
+  } catch (error) {
+    return link;
+  }
+}
+
+function getIntrayTitle(item) {
+  if (item.title && item.title !== item.link) {
+    return item.title;
+  }
+
+  return getTitleFromLink(item.link);
+}
+
+function getVisibleIntrayItems() {
+  return intrayItems.filter(function (item) {
+    const searchText = `${item.title} ${item.link} ${item.note}`.toLowerCase();
+    const matchesFilter = intrayCurrentFilter === "All" || item.status === intrayCurrentFilter;
+    const matchesSearch = searchText.includes(intrayCurrentSearch);
+
+    return matchesFilter && matchesSearch;
+  });
+}
+
+function updateIntrayCount() {
+  const visibleItems = getVisibleIntrayItems();
+  const linkLabel = visibleItems.length === 1 ? "link" : "links";
+  intrayCount.textContent = `${visibleItems.length} ${linkLabel} shown`;
+}
+
+function renderIntrayItems() {
+  intrayList.innerHTML = "";
+
+  getVisibleIntrayItems().forEach(function (item) {
+    const newItem = document.createElement("li");
+    const itemMain = document.createElement("div");
+    const itemActions = document.createElement("div");
+    const statusBadge = document.createElement("span");
+    const link = document.createElement("a");
+    const note = document.createElement("span");
+    const statusToggleButton = document.createElement("button");
+    const editButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
+
+    itemMain.className = "entry-main";
+    itemActions.className = "entry-actions";
+
+    statusBadge.textContent = item.status;
+    statusBadge.className = `category-badge intray-status ${item.status.toLowerCase()}-status`;
+
+    link.href = getSafeLink(item.link);
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = getIntrayTitle(item);
+    link.className = "intray-link note-text";
+
+    note.textContent = item.note;
+    note.className = "intray-note";
+    note.hidden = item.note === "";
+
+    statusToggleButton.textContent = item.status === "Done" ? "Mark Inbox" : "Mark Done";
+    statusToggleButton.className = "edit-button";
+    statusToggleButton.type = "button";
+
+    statusToggleButton.addEventListener("click", function () {
+      item.status = item.status === "Done" ? "Inbox" : "Done";
+      saveIntrayItems();
+      renderIntrayItems();
+    });
+
+    editButton.textContent = "Edit";
+    editButton.className = "edit-button";
+    editButton.type = "button";
+
+    editButton.addEventListener("click", function () {
+      const updatedLink = prompt("Edit link:", item.link);
+      const updatedStatus = prompt("Edit status: Inbox or Done", item.status);
+      const allowedStatuses = ["Inbox", "Done"];
+
+      if (updatedLink === null || updatedStatus === null) {
+        return;
+      }
+
+      item.title = updatedLink.trim();
+      item.link = normalizeLink(updatedLink.trim());
+      item.status = allowedStatuses.includes(updatedStatus.trim()) ? updatedStatus.trim() : item.status;
+      saveIntrayItems();
+      renderIntrayItems();
+    });
+
+    deleteButton.textContent = "Remove";
+    deleteButton.className = "remove-button";
+    deleteButton.type = "button";
+
+    deleteButton.addEventListener("click", function () {
+      const index = intrayItems.indexOf(item);
+      intrayItems.splice(index, 1);
+      saveIntrayItems();
+      renderIntrayItems();
+    });
+
+    itemMain.appendChild(statusBadge);
+    itemMain.appendChild(link);
+    itemMain.appendChild(note);
+    itemActions.appendChild(statusToggleButton);
+    itemActions.appendChild(editButton);
+    itemActions.appendChild(deleteButton);
+    newItem.appendChild(itemMain);
+    newItem.appendChild(itemActions);
+    intrayList.appendChild(newItem);
+  });
+
+  updateIntrayCount();
+}
+
+function parseIntrayMarkdown(markdown) {
+  const importedItems = [];
+  const sections = markdown.split("\n### ").slice(1);
+
+  sections.forEach(function (section) {
+    const lines = section.split(/\r?\n/);
+    const title = lines[0].trim();
+    const linkLine = lines.find(function (line) {
+      return line.startsWith("Link: ");
+    });
+    const statusLine = lines.find(function (line) {
+      return line.startsWith("Status: ");
+    });
+    const noteLine = lines.find(function (line) {
+      return line.startsWith("Note: ");
+    });
+
+    if (!linkLine) {
+      return;
+    }
+
+    importedItems.push({
+      title: title,
+      link: normalizeLink(linkLine.replace("Link: ", "").trim()),
+      status: statusLine ? statusLine.replace("Status: ", "").trim() : "Inbox",
+      note: noteLine ? noteLine.replace("Note: ", "").trim() : "",
+    });
+  });
+
+  return importedItems;
+}
+
+function getSavedBooks() {
+  const savedBooks = readStoredArray("books");
+
+  return savedBooks.map(function (book) {
+    return {
+      title: book.title || "",
+      author: book.author || "",
+      status: book.status || "Reading",
+      finishedDate: book.finishedDate || "",
+    };
+  });
+}
+
+function saveBooks() {
+  localStorage.setItem("books", JSON.stringify(books));
+}
+
+function getVisibleBooks() {
+  return books.filter(function (book) {
+    return bookCurrentFilter === "All" || book.status === bookCurrentFilter;
+  });
+}
+
+function updateBookCount() {
+  const visibleBooks = getVisibleBooks();
+  const bookLabel = visibleBooks.length === 1 ? "book" : "books";
+  bookCount.textContent = `${visibleBooks.length} ${bookLabel} shown`;
+}
+
+function renderBooks() {
+  bookList.innerHTML = "";
+
+  getVisibleBooks().forEach(function (book) {
+    const newBook = document.createElement("li");
+    const bookMain = document.createElement("div");
+    const bookActions = document.createElement("div");
+    const statusBadge = document.createElement("span");
+    const bookTitleText = document.createElement("span");
+    const bookAuthorText = document.createElement("span");
+    const finishedText = document.createElement("span");
+    const editButton = document.createElement("button");
+    const deleteButton = document.createElement("button");
+
+    bookMain.className = "entry-main";
+    bookActions.className = "entry-actions";
+
+    statusBadge.textContent = book.status;
+    statusBadge.className = `category-badge book-status ${book.status.toLowerCase()}-book-status`;
+
+    bookTitleText.textContent = book.title;
+    bookTitleText.className = "note-text book-title-column";
+
+    bookAuthorText.textContent = book.author || "Unknown author";
+    bookAuthorText.className = "book-author-column";
+
+    finishedText.textContent = book.finishedDate ? `Finished ${book.finishedDate}` : "";
+    finishedText.className = "entry-time";
+    finishedText.hidden = book.finishedDate === "";
+
+    editButton.textContent = "Edit";
+    editButton.className = "edit-button";
+
+    editButton.addEventListener("click", function () {
+      const updatedTitle = prompt("Edit title:", book.title);
+      const updatedAuthor = prompt("Edit author:", book.author);
+      const updatedStatus = prompt("Edit status: Reading or Completed", book.status);
+      const updatedFinishedDate = prompt("Edit date finished, YYYY-MM-DD or blank:", book.finishedDate);
+      const allowedStatuses = ["Reading", "Completed"];
+
+      if (updatedTitle === null || updatedAuthor === null || updatedStatus === null || updatedFinishedDate === null) {
+        return;
+      }
+
+      book.title = updatedTitle.trim();
+      book.author = updatedAuthor.trim();
+      book.status = allowedStatuses.includes(updatedStatus.trim()) ? updatedStatus.trim() : book.status;
+      book.finishedDate = updatedFinishedDate.trim();
+      saveBooks();
+      renderBooks();
+    });
+
+    deleteButton.textContent = "Remove";
+    deleteButton.className = "remove-button";
+
+    deleteButton.addEventListener("click", function () {
+      const index = books.indexOf(book);
+      books.splice(index, 1);
+      saveBooks();
+      renderBooks();
+    });
+
+    bookMain.appendChild(statusBadge);
+    bookMain.appendChild(bookTitleText);
+    bookMain.appendChild(bookAuthorText);
+    bookMain.appendChild(finishedText);
+    bookActions.appendChild(editButton);
+    bookActions.appendChild(deleteButton);
+    newBook.appendChild(bookMain);
+    newBook.appendChild(bookActions);
+    bookList.appendChild(newBook);
+  });
+
+  updateBookCount();
+}
+
+async function autoLoadSharedData() {
+  const fetchedSharedData = await fetchSharedData();
+  const sharedData = fetchedSharedData || embeddedSharedData;
+
+  mergeUniqueNotes(sharedData.notes || []);
+  mergeUniqueWheelsEntries(sharedData.wheelsEntries || []);
+  mergeUniqueIntrayItems(sharedData.intrayItems || []);
+  mergeUniqueBooks(sharedData.books || []);
+  saveNotes();
+  saveWheelsEntries();
+  saveIntrayItems();
+  saveBooks();
+  renderNotes();
+  renderWheelsEntries();
+  renderIntrayItems();
+  renderBooks();
 }
 
 function updateNoteCount() {
@@ -249,6 +712,7 @@ function parseNotesMarkdown(markdown) {
 }
 
 renderNotes();
+renderIntrayItems();
 
 filterButtons.forEach(function (button) {
   button.addEventListener("click", function () {
@@ -266,6 +730,48 @@ filterButtons.forEach(function (button) {
 noteSearch.addEventListener("input", function () {
   currentSearch = noteSearch.value.trim().toLowerCase();
   renderNotes();
+});
+
+intrayFilterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    intrayCurrentFilter = button.dataset.filter;
+
+    intrayFilterButtons.forEach(function (filterButton) {
+      filterButton.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    renderIntrayItems();
+  });
+});
+
+intraySearch.addEventListener("input", function () {
+  intrayCurrentSearch = intraySearch.value.trim().toLowerCase();
+  renderIntrayItems();
+});
+
+intrayForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const link = normalizeLink(intrayLinkInput.value.trim());
+  const status = intrayStatusInput.value;
+
+  if (link === "") {
+    return;
+  }
+
+  intrayItems.push({
+    title: link,
+    link: link,
+    note: "",
+    status: status,
+  });
+
+  saveIntrayItems();
+  renderIntrayItems();
+
+  intrayLinkInput.value = "";
+  intrayLinkInput.focus();
 });
 
 form.addEventListener("submit", function (event) {
@@ -301,60 +807,12 @@ undoButton.addEventListener("click", function () {
   undoButton.hidden = true;
 });
 
-exportButton.addEventListener("click", function () {
-  const markdownLines = ["# My Notes", ""];
-
-  notes.forEach(function (note) {
-    markdownLines.push(`- **${note.category}:** ${note.text}`);
-  });
-
-  const markdown = markdownLines.join("\n");
-  downloadTextFile("my-notes.md", markdown, "text/markdown");
-});
-
-noteImportInput.addEventListener("change", function () {
-  const file = noteImportInput.files[0];
-
-  if (!file) {
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.addEventListener("load", function () {
-    const importedNotes = parseNotesMarkdown(reader.result);
-
-    if (importedNotes.length === 0) {
-      alert("No Dashboard notes were found in that file.");
-      noteImportInput.value = "";
-      return;
-    }
-
-    notes = notes.concat(importedNotes);
-    saveNotes();
-    renderNotes();
-    noteImportInput.value = "";
-  });
-
-  reader.readAsText(file);
-});
-
-exportSharedDataButton.addEventListener("click", function () {
-  const sharedData = {
-    notes: notes,
-    wheelsEntries: wheelsEntries,
-  };
-  const json = JSON.stringify(sharedData, null, 2);
-
-  downloadTextFile("data.json", json, "application/json");
-});
-
 function saveWheelsEntries() {
   localStorage.setItem("wheelsEntries", JSON.stringify(wheelsEntries));
 }
 
 function getSavedWheelsEntries() {
-  const savedEntries = JSON.parse(localStorage.getItem("wheelsEntries")) || [];
+  const savedEntries = readStoredArray("wheelsEntries");
 
   return savedEntries.map(function (entry) {
     return {
@@ -660,33 +1118,57 @@ wheelsExportButton.addEventListener("click", function () {
   downloadTextFile("wheels-status.md", markdown, "text/markdown");
 });
 
-wheelsImportInput.addEventListener("change", function () {
-  const file = wheelsImportInput.files[0];
+renderWheelsEntries();
+renderBooks();
 
-  if (!file) {
+bookFilterButtons.forEach(function (button) {
+  button.addEventListener("click", function () {
+    bookCurrentFilter = button.dataset.filter;
+
+    bookFilterButtons.forEach(function (filterButton) {
+      filterButton.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    renderBooks();
+  });
+});
+
+bookForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const title = bookTitleInput.value.trim();
+
+  if (title === "") {
     return;
   }
 
-  const reader = new FileReader();
-
-  reader.addEventListener("load", function () {
-    const importedEntries = parseWheelsMarkdown(reader.result);
-
-    if (importedEntries.length === 0) {
-      alert("No Wheels entries were found in that file.");
-      wheelsImportInput.value = "";
-      return;
-    }
-
-    wheelsEntries = wheelsEntries.concat(importedEntries);
-    saveWheelsEntries();
-    renderWheelsEntries();
-    wheelsImportInput.value = "";
+  books.push({
+    title: title,
+    author: bookAuthorInput.value.trim(),
+    status: bookStatusInput.value,
+    finishedDate: bookFinishedInput.value,
   });
 
-  reader.readAsText(file);
+  saveBooks();
+  renderBooks();
+
+  bookTitleInput.value = "";
+  bookAuthorInput.value = "";
+  bookFinishedInput.value = "";
+  bookTitleInput.focus();
 });
 
-renderWheelsEntries();
+downloadSiteDataButton.addEventListener("click", function () {
+  const siteData = {
+    notes: notes,
+    intrayItems: intrayItems,
+    wheelsEntries: wheelsEntries,
+    books: books,
+  };
+
+  downloadTextFile("data.json", JSON.stringify(siteData, null, 2), "application/json");
+});
+
 loadShanghaiWeather();
 autoLoadSharedData();

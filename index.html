@@ -40,52 +40,91 @@
           </div>
         </section>
 
-        <form id="note-form" class="note-form">
-          <label for="note-input">Add a note</label>
-          <div class="input-row">
-            <input id="note-input" type="text" placeholder="Example: Learn something new everyday, clip one intereseting article, and sew a button!">
-            <select id="category-input" aria-label="Note category">
-              <option value="Idea">Idea</option>
-              <option value="Task">Task</option>
-              <option value="Article">Article</option>
-            </select>
-            <button type="submit">Add</button>
+        <section class="subsection in-tray-section">
+          <p class="eyebrow">Read later</p>
+          <h2>In-Tray</h2>
+          <p class="section-copy">
+            “...It is really the life of kings" 
+          </p>
+
+          <form id="intray-form" class="note-form">
+            <label for="intray-link-input">Paste a link to save for later</label>
+            <div class="stacked-inputs">
+              <input id="intray-link-input" type="text" placeholder="Paste article link">
+              <div class="input-row">
+                <select id="intray-status-input" aria-label="In-Tray status">
+                  <option value="Inbox">Inbox</option>
+                  <option value="Done">Done</option>
+                </select>
+                <button type="submit">Add to In-Tray</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="filter-row" aria-label="Filter In-Tray links by status">
+            <button class="intray-filter-button active" type="button" data-filter="All">All</button>
+            <button class="intray-filter-button" type="button" data-filter="Inbox">Inbox</button>
+            <button class="intray-filter-button" type="button" data-filter="Done">Done</button>
           </div>
-        </form>
 
-        <div class="filter-row" aria-label="Filter notes by category">
-          <button class="filter-button active" type="button" data-filter="All">All</button>
-          <button class="filter-button" type="button" data-filter="Idea">Ideas</button>
-          <button class="filter-button" type="button" data-filter="Task">Tasks</button>
-          <button class="filter-button" type="button" data-filter="Article">Articles</button>
-        </div>
+          <input id="intray-search" class="search-input" type="search" placeholder="Search In-Tray">
 
-        <input id="note-search" class="search-input" type="search" placeholder="Search notes">
+          <p id="intray-count" class="note-count">0 links shown</p>
 
-        <p id="note-count" class="note-count">0 notes saved</p>
+          <ul id="intray-list" class="note-list"></ul>
 
-        <ul id="note-list" class="note-list">
-          <li>Open this file in a browser</li>
-          <li>Edit the heading in index.html</li>
-          <li>Change a color in styles.css</li>
-          <li>Practice for ten minutes</li>
-        </ul>
+        </section>
 
-        <div class="actions">
-          <button id="clear-button" class="clear-button" type="button">Clear All</button>
-          <button id="undo-button" class="undo-button" type="button" hidden>Undo Clear</button>
-          <label class="import-button" for="note-import-input">Import Notes</label>
-          <input id="note-import-input" class="file-input" type="file" accept=".md,.txt" hidden>
-          <button id="export-button" class="export-button" type="button">Export Markdown</button>
-          <button id="export-shared-data-button" class="shared-button" type="button">Export Shared Data</button>
-        </div>
+        <section class="subsection notes-section">
+          <p class="eyebrow">Notes and sparks</p>
+          <h2>Food for Thought</h2>
+          <p class="section-copy">
+            "Here where my imaginings find peace..."
+          </p>
+
+          <form id="note-form" class="note-form">
+            <label for="note-input">Add a note</label>
+            <div class="input-row">
+              <input id="note-input" type="text" placeholder="Example: Learn something new everyday, clip one interesting article, and sew a button!">
+              <select id="category-input" aria-label="Note category">
+                <option value="Idea">Idea</option>
+                <option value="Task">Task</option>
+                <option value="Article">Article</option>
+              </select>
+              <button type="submit">Add</button>
+            </div>
+          </form>
+
+          <div class="filter-row" aria-label="Filter notes by category">
+            <button class="filter-button active" type="button" data-filter="All">All</button>
+            <button class="filter-button" type="button" data-filter="Idea">Ideas</button>
+            <button class="filter-button" type="button" data-filter="Task">Tasks</button>
+            <button class="filter-button" type="button" data-filter="Article">Articles</button>
+          </div>
+
+          <input id="note-search" class="search-input" type="search" placeholder="Search notes">
+
+          <p id="note-count" class="note-count">0 notes saved</p>
+
+          <ul id="note-list" class="note-list">
+            <li>Open this file in a browser</li>
+            <li>Edit the heading in index.html</li>
+            <li>Change a color in styles.css</li>
+            <li>Practice for ten minutes</li>
+          </ul>
+
+          <div class="actions">
+            <button id="clear-button" class="clear-button" type="button">Clear All</button>
+            <button id="undo-button" class="undo-button" type="button" hidden>Undo Clear</button>
+          </div>
+        </section>
       </section>
 
       <section class="panel wheels-panel">
         <p class="eyebrow">Cat activity log</p>
         <h2>Wheels Status</h2>
         <p class="intro">
-          Track food, beverage, and health updates with an automatic timestamp.
+          “花轮轮全身上下没有一根坏骨头”
         </p>
 
         <form id="wheels-form" class="note-form">
@@ -117,13 +156,49 @@
         <div class="actions">
           <button id="wheels-clear-button" class="clear-button" type="button">Clear All</button>
           <button id="wheels-undo-button" class="undo-button" type="button" hidden>Undo Clear</button>
-          <label class="import-button" for="wheels-import-input">Import Wheels Log</label>
-          <input id="wheels-import-input" class="file-input" type="file" accept=".md,.txt" hidden>
           <button id="wheels-export-button" class="export-button" type="button">Export Wheels Log</button>
+        </div>
+      </section>
+
+      <section class="panel books-panel">
+        <p class="eyebrow">Reading shelf</p>
+        <h2>Books</h2>
+        <p class="intro">
+          "Never lose your place."
+        </p>
+
+        <form id="book-form" class="note-form">
+          <label for="book-title-input">Add a book</label>
+          <div class="stacked-inputs">
+            <input id="book-title-input" type="text" placeholder="Book title">
+            <input id="book-author-input" type="text" placeholder="Author">
+            <div class="input-row">
+              <select id="book-status-input" aria-label="Book status">
+                <option value="Reading">Currently reading</option>
+                <option value="Completed">Completed</option>
+              </select>
+              <input id="book-finished-input" type="date" aria-label="Date finished">
+              <button type="submit">Add Book</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="filter-row" aria-label="Filter books by status">
+          <button class="book-filter-button active" type="button" data-filter="All">All</button>
+          <button class="book-filter-button" type="button" data-filter="Reading">Reading</button>
+          <button class="book-filter-button" type="button" data-filter="Completed">Completed</button>
+        </div>
+
+        <p id="book-count" class="note-count">0 books shown</p>
+
+        <ul id="book-list" class="note-list"></ul>
+
+        <div class="actions">
+          <button id="download-site-data-button" class="export-button" type="button">Download Site Data</button>
         </div>
       </section>
     </main>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=20260527-shared-data-all"></script>
   </body>
 </html>
