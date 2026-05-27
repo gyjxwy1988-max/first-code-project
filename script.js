@@ -8,7 +8,6 @@ const clearButton = document.querySelector("#clear-button");
 const undoButton = document.querySelector("#undo-button");
 const exportButton = document.querySelector("#export-button");
 const noteImportInput = document.querySelector("#note-import-input");
-const loadSharedNotesButton = document.querySelector("#load-shared-notes-button");
 const exportSharedDataButton = document.querySelector("#export-shared-data-button");
 const filterButtons = document.querySelectorAll(".filter-button");
 const weatherTemp = document.querySelector("#weather-temp");
@@ -25,7 +24,6 @@ const wheelsClearButton = document.querySelector("#wheels-clear-button");
 const wheelsUndoButton = document.querySelector("#wheels-undo-button");
 const wheelsExportButton = document.querySelector("#wheels-export-button");
 const wheelsImportInput = document.querySelector("#wheels-import-input");
-const loadSharedWheelsButton = document.querySelector("#load-shared-wheels-button");
 const wheelsFilterButtons = document.querySelectorAll(".wheels-filter-button");
 
 const starterNotes = [
@@ -98,6 +96,64 @@ function downloadTextFile(filename, text, fileType) {
   link.click();
 
   URL.revokeObjectURL(link.href);
+}
+
+function noteKey(note) {
+  return `${note.category}|${note.text}`;
+}
+
+function wheelsEntryKey(entry) {
+  return `${entry.createdAt}|${entry.category}|${entry.text}`;
+}
+
+function mergeUniqueNotes(sharedNotes) {
+  const existingNotes = new Set(notes.map(noteKey));
+
+  sharedNotes.forEach(function (note) {
+    const normalizedNote = {
+      text: note.text || "",
+      category: note.category || "Idea",
+    };
+    const key = noteKey(normalizedNote);
+
+    if (normalizedNote.text !== "" && !existingNotes.has(key)) {
+      notes.push(normalizedNote);
+      existingNotes.add(key);
+    }
+  });
+}
+
+function mergeUniqueWheelsEntries(sharedEntries) {
+  const existingEntries = new Set(wheelsEntries.map(wheelsEntryKey));
+
+  sharedEntries.forEach(function (entry) {
+    const normalizedEntry = {
+      text: entry.text || "",
+      category: entry.category || "Health",
+      createdAt: entry.createdAt || new Date().toISOString(),
+    };
+    const key = wheelsEntryKey(normalizedEntry);
+
+    if (normalizedEntry.text !== "" && !existingEntries.has(key)) {
+      wheelsEntries.push(normalizedEntry);
+      existingEntries.add(key);
+    }
+  });
+}
+
+async function autoLoadSharedData() {
+  try {
+    const sharedData = await loadSharedData();
+
+    mergeUniqueNotes(sharedData.notes || []);
+    mergeUniqueWheelsEntries(sharedData.wheelsEntries || []);
+    saveNotes();
+    saveWheelsEntries();
+    renderNotes();
+    renderWheelsEntries();
+  } catch (error) {
+    // The local file version may not be allowed to fetch data.json. The app still works without it.
+  }
 }
 
 function updateNoteCount() {
@@ -281,19 +337,6 @@ noteImportInput.addEventListener("change", function () {
   });
 
   reader.readAsText(file);
-});
-
-loadSharedNotesButton.addEventListener("click", async function () {
-  try {
-    const sharedData = await loadSharedData();
-    const sharedNotes = sharedData.notes || [];
-
-    notes = notes.concat(sharedNotes);
-    saveNotes();
-    renderNotes();
-  } catch (error) {
-    alert("Shared notes could not be loaded.");
-  }
 });
 
 exportSharedDataButton.addEventListener("click", function () {
@@ -644,18 +687,6 @@ wheelsImportInput.addEventListener("change", function () {
   reader.readAsText(file);
 });
 
-loadSharedWheelsButton.addEventListener("click", async function () {
-  try {
-    const sharedData = await loadSharedData();
-    const sharedWheelsEntries = sharedData.wheelsEntries || [];
-
-    wheelsEntries = wheelsEntries.concat(sharedWheelsEntries);
-    saveWheelsEntries();
-    renderWheelsEntries();
-  } catch (error) {
-    alert("Shared Wheels entries could not be loaded.");
-  }
-});
-
 renderWheelsEntries();
 loadShanghaiWeather();
+autoLoadSharedData();
