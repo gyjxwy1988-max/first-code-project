@@ -1,46 +1,15 @@
 {
   "notes": [
     {
-      "text": "猪咪咪外出打猎，小猫猫缝缝补补！",
+      "text": "This note came from data.json",
       "category": "Idea"
-    },
-    {
-      "text": "请看见我~~~~",
-      "category": "Idea"
-    },
-    {
-      "text": "花轮轮：可怕的人类 啧啧啧 （困了",
-      "category": "Idea"
-    },
-    {
-      "text": "Do laundry, and be a human about it (深藏功与名=。=",
-      "category": "Task"
-    },
-    {
-      "text": "‘The Maids,’ With Yerin Ha, Asks: Has Life Become One Big Performance?",
-      "category": "Article"
     }
   ],
   "wheelsEntries": [
     {
-      "text": "皇家幼猫10G",
-      "category": "Food",
-      "createdAt": "2026-05-26T23:00:00.000Z"
-    },
-    {
-      "text": "沉浸式表演喝水十分钟",
-      "category": "Beverage",
-      "createdAt": "2026-05-27T01:00:00.000Z"
-    },
-    {
-      "text": "内驱-大宠爱",
+      "text": "Example shared Wheels entry",
       "category": "Health",
-      "createdAt": "2026-05-25T13:00:00.000Z"
-    },
-    {
-      "text": "美容觉",
-      "category": "Health",
-      "createdAt": "2026-05-27T03:25:42.517Z"
+      "createdAt": "2026-05-27T09:00:00.000+08:00"
     }
   ]
 }
